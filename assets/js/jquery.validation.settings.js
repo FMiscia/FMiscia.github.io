@@ -100,16 +100,17 @@ jQuery(document).ready(function($){
 		type: "POST",
 		url: "assets/php/contact-form-process.php",
 		data: $("#form-contact").serialize(),
-		success: function(msg){
+		success: function(data){
+			jsonresponse = $.parseJSON(data);
 			$("#form-message").ajaxComplete(function(event, request, settings){
-				if(msg == 'OK') // Message Sent? Show the 'Thank You' message
+				if(jsonresponse.result) // Message Sent? Show the 'Thank You' message
 				{
 					result = '<span class="form-message-success"><i class="icon-thumbs-up"></i> Your message was sent. Thank you!</span>';
 					clear = true;
 				}
 				else
 				{
-					result = '<span class="form-message-error"><i class="icon-thumbs-down"></i> ' + msg +'</span>';
+					result = '<span class="form-message-error"><i class="icon-thumbs-down"></i> ' + jsonresponse.msg +'</span>';
 					clear = false;
 				}
 				$(this).html(result);
